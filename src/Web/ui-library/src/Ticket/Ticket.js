@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Draggable } from "react-beautiful-dnd";
 
 const useStyles = makeStyles({
     root: {
@@ -8,15 +9,29 @@ const useStyles = makeStyles({
         marginBottom: "5px",
         border: "1px solid #000000",
         borderRadius: "5px",
+        boxShadow: "2px 4px #B3B3B3"
     },
 });
 
-export default function Ticket({ children, backgroundColor }) {
+export default function Ticket({ id, index, children, backgroundColor }) {
     const classes = useStyles();
 
     return (
-        <div className={classes.root} style={{ backgroundColor }}>
-            {children}
-        </div>
+        <Draggable draggableId={id} index={index}>
+            {(provided, snapshot) => (
+                <div
+                    ref={provided.innerRef}  
+                    {...provided.draggableProps}  
+                    {...provided.dragHandleProps}
+                >
+                    <div 
+                        className={classes.root} 
+                        style={{ backgroundColor }}
+                    >
+                        {children}
+                    </div>
+                </div>
+            )}
+        </Draggable>
     );
 }
