@@ -9,7 +9,6 @@ const useStyles = makeStyles({
         width: "100%",
         height: "calc(100% - 50px)",
         overflow: "auto",
-        scrollMarginRight: "10%"
     },
 });
 

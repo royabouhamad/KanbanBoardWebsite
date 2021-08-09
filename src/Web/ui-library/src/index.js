@@ -1,6 +1,7 @@
 import React from "react";
 export { default as Content } from "./Content";
 export { default as DragDrop } from "./DragDrop";
+export * as Icons from "./Icons/Icons";
 export { default as Root } from "./Root";
 export { default as Scrollbar } from "./Scrollbar";
 export { default as Section } from "./Section";

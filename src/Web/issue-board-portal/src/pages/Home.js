@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
     Content,
     DragDrop,
+    Icons,
     Root,
     Section,
     SectionBody,
@@ -10,7 +11,7 @@ import {
     Text,
     Ticket
 } from "@kanban/ui-library"; 
-import { updateTicketSection, updateTicketPosition } from "../features/tickets/ticketsSlice";
+import { addTicket, removeTicket, updateTicketSection, updateTicketPosition } from "../features/tickets/ticketsSlice";
 
 export default function Home() {
     const boardSections = useSelector(state => state.boardSections.sections);
@@ -35,6 +36,23 @@ export default function Home() {
         }));
     }
 
+    const addNewTicket = (boardSectionId, tickets) => {
+        dispatch(addTicket({
+            id: `${parseInt(tickets[tickets.length-1].id) + 1}`,
+            boardSectionId: boardSectionId,
+            name: "New Ticket",
+            sectionPosition: tickets.filter(ticket => ticket.boardSectionId === boardSectionId).length + 1,
+        }));
+    }
+
+    const deleteTicket = (ticket) => {
+        dispatch(removeTicket({
+            id: ticket.id,
+            boardSectionId: ticket.boardSectionId,
+            sectionPosition: ticket.sectionPosition,
+        }));
+    }
+
     return (
         <Root>
             <DragDrop onDragEnd={onDragEnd}>
@@ -47,7 +65,7 @@ export default function Home() {
                                 </SectionHeader>
                                 
                                 
-                                <SectionBody id={section.id}>
+                                <SectionBody id={section.id} addFunction={() => addNewTicket(section.id, tickets)}>
                                     {tickets
                                         .filter(ticket => ticket.boardSectionId === section.id)
                                         .sort((a, b) => a.sectionPosition - b.sectionPosition)
@@ -60,12 +78,22 @@ export default function Home() {
                                                     index={ticket.sectionPosition}
                                                 >
                                                     <Text small>{ticket.id}</Text>
-                                                    <Text>{ticket.name}</Text>
+                                                    <div 
+                                                        style={{
+                                                            display: "flex",
+                                                            flexDirection: "row",
+                                                            justifyContent: "space-between",
+                                                        }}
+                                                    >
+                                                        <Text>{ticket.name}</Text>
+                                                        <Icons.CrossIcon style={{ cursor: "pointer" }} onClick={() => deleteTicket(ticket)} />
+                                                    </div>
                                                     <Text small>{ticket.description}</Text>
                                                 </Ticket>
                                             );
                                         })
                                     }
+                                    <div style={{ padding: "0.005rem"}} />
                                 </SectionBody>
                             </Section>
                         )

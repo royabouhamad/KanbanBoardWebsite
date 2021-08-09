@@ -20,16 +20,26 @@ export const ticketsSlice = createSlice({
     ],
     reducers: {
         addTicket: (state, { payload }) => {
-            return state.push({
+            return [...state, {
                 id: payload.id,
                 boardSectionId: payload.boardSectionId,
                 name: payload.name,
                 description: payload.description ?? "",
                 sectionPosition: payload.sectionPosition,
-            });
+            }];
         },
         removeTicket: (state, { payload }) => {
-            return state.filter(ticket => ticket.id !== payload.id);
+            return state.filter(ticket => ticket.id !== payload.id).map(ticket => {
+                if (ticket.boardSectionId === payload.boardSectionId
+                    && ticket.sectionPosition > payload.sectionPosition) {
+                    return {
+                        ...ticket,
+                        sectionPosition: ticket.sectionPosition - 1,
+                    }
+                }
+
+                return ticket;
+            })
         },
         updateTicketSection: (state, { payload }) => {
             return state.map(ticket => {
