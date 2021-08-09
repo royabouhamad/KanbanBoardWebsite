@@ -3,20 +3,19 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
     root: {
-        width: "100%",
-        height: "100%",
         display: "flex",
         flexDirection: "row",
-        overflow: "hidden",
+        backgroundColor: "#808080",
+        padding: "10px",
+        borderBottom: "1px solid #000000",
+        height: "40px"
     }
 });
 
-export default function Root({ children }) {
+export default function SectionHeader({ children }) {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            {children}
-        </div>
+        <div className={classes.root}>{children}</div>
     );
 }

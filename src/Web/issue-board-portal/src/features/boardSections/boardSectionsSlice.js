@@ -7,6 +7,7 @@ export const boardSectionsSlice = createSlice({
             { id: "1", name: "To do"},
             { id: "2", name: "Doing"},
             { id: "3", name: "Done"},
+            { id: "4", name: "Testing"},
         ],
     },
     reducers: {

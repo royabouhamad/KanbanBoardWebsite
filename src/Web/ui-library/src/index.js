@@ -1,6 +1,11 @@
 import React from "react";
+export { default as Content } from "./Content";
 export { default as Root } from "./Root";
 export { default as Scrollbar } from "./Scrollbar";
+export { default as Section } from "./Section";
+export { default as SectionBody } from "./SectionBody";
+export { default as SectionHeader } from "./SectionHeader";
 export { default as StyleDefaults } from "./StyleDefaults";
 export { default as StyleWrapper } from "./StyleWrapper";
 export { default as Text } from "./Text";
+export { default as Ticket } from "./Ticket";
