@@ -8,7 +8,8 @@ const useStyles = makeStyles({
         backgroundColor: "#808080",
         padding: "10px",
         borderBottom: "1px solid #000000",
-        height: "40px"
+        height: "40px",
+        justifyContent: "space-between",
     }
 });
 

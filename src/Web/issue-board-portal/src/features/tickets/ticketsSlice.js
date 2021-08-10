@@ -135,6 +135,9 @@ export const ticketsSlice = createSlice({
 
                 return ticket;
             });
+        },
+        setTickets: (state, { payload }) => {
+            return state = payload;
         }
     }
 })
@@ -145,7 +148,8 @@ export const {
     updateTicketSection,
     updateTicketName,
     updateTicketDescription,
-    updateTicketPosition
+    updateTicketPosition,
+    setTickets,
 } = ticketsSlice.actions;
 
 export default ticketsSlice.reducer;

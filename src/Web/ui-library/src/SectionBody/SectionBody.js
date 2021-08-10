@@ -31,7 +31,7 @@ export default function SectionBody({ id, children, addFunction }) {
                                 justifyContent: "center"
                             }}
                         >
-                            <Icons.PlusIcon onClick={addFunction} />
+                            <Icons.PlusIcon style={{ cursor: "pointer" }} onClick={addFunction} />
                         </div>
                     :
                         <></>

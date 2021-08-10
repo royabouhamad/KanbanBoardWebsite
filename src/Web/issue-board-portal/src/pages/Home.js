@@ -9,17 +9,41 @@ import {
     SectionBody,
     SectionHeader,
     Text,
-    Ticket
+    Ticket,
 } from "@kanban/ui-library"; 
-import { addTicket, removeTicket, updateTicketSection, updateTicketPosition } from "../features/tickets/ticketsSlice";
+import { 
+    addTicket,
+    removeTicket,
+    setTickets,
+    updateTicketSection,
+    updateTicketPosition,
+} from "../features/tickets/ticketsSlice";
+import {
+    addBoardSection,
+    removeBoardSection,
+    updateBoardSectionPosition,
+} from "../features/boardSections/boardSectionsSlice";
 
 export default function Home() {
-    const boardSections = useSelector(state => state.boardSections.sections);
+    const boardSections = useSelector(state => state.boardSections);
     const tickets = useSelector(state => state.tickets);
     const dispatch = useDispatch();
+    console.log(tickets);
+    console.log(boardSections.slice().sort((a, b) => a.sectionPosition - b.sectionPosition));
 
     const onDragEnd = (result) => {
+        console.log(result);
         if (!result.destination) {
+            return;
+        }
+
+        if (result.type === "section") {
+            dispatch(updateBoardSectionPosition({
+                id: result.draggableId[1],
+                originalPosition: result.source.index,
+                sectionPosition: result.destination.index,
+            }));
+
             return;
         }
 
@@ -53,15 +77,33 @@ export default function Home() {
         }));
     }
 
+    const addNewBoardSection = () => {
+        dispatch(addBoardSection({
+            id: `${parseInt(boardSections[boardSections.length-1].id) + 1}`,
+            name: "New Board",
+            sectionPosition: boardSections.length + 1,
+        }));
+    }
+
+    const deleteBoardSection = (section) => {
+        dispatch(removeBoardSection({
+            id: section.id,
+            originalPosition: section.sectionPosition
+        }));
+
+        dispatch(setTickets(tickets.filter(ticket => ticket.boardSectionId !== section.id)));
+    }
+
     return (
         <Root>
             <DragDrop onDragEnd={onDragEnd}>
-                <Content>
-                    {boardSections.map(section => {
+                <Content id="board" addFunction={() => addNewBoardSection()}>
+                    {boardSections.slice().sort((a, b) => a.sectionPosition - b.sectionPosition).map((section, index) => {
                         return (
-                            <Section key={section.id} boards={boardSections.length}>
+                            <Section key={section.id} id={section.id} boards={boardSections.length} index={index}>
                                 <SectionHeader>
                                     <Text bold>{section.name}</Text>
+                                    <Icons.CrossIcon style={{ cursor: "pointer" }} onClick={() => deleteBoardSection(section)} />
                                 </SectionHeader>
                                 
                                 

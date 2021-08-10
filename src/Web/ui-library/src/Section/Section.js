@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Draggable } from 'react-beautiful-dnd';
 
 const useStyles = makeStyles({
     root: (props) => ({
@@ -15,10 +16,21 @@ const useStyles = makeStyles({
     })
 });
 
-export default function Section({ children }) {
+export default function Section({ id, index, children }) {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>{children}</div>
+        <Draggable draggableId={`b${id}`} index={index}>
+            {(provided, snapshot) => (
+                <div 
+                    className={classes.root}
+                    ref={provided.innerRef}  
+                    {...provided.draggableProps}  
+                    {...provided.dragHandleProps}
+                >
+                    {children}
+                </div>
+            )}
+        </Draggable>
     );
 }
