@@ -11,25 +11,25 @@ import {
     Text,
     Ticket,
 } from "@kanban/ui-library"; 
-import { 
-    addTicket,
+import {
     removeTicket,
     setTickets,
     updateTicketSection,
     updateTicketPosition,
 } from "../features/tickets/ticketsSlice";
 import {
-    addBoardSection,
     removeBoardSection,
     updateBoardSectionPosition,
 } from "../features/boardSections/boardSectionsSlice";
+import { AddBoardDialog, AddTicketDialog } from "../containers/dialogs";
 
 export default function Home() {
+    const [boardSectionIdAddTo, setBoardSectionIdAddTo] = React.useState("");
+    const [boardDialogOpen, setBoardDialogOpen] = React.useState(false);
+    const [ticketDialogOpen, setTicketDialogOpen] = React.useState(false);
     const boardSections = useSelector(state => state.boardSections);
     const tickets = useSelector(state => state.tickets);
     const dispatch = useDispatch();
-    console.log(tickets);
-    console.log(boardSections.slice().sort((a, b) => a.sectionPosition - b.sectionPosition));
 
     const onDragEnd = (result) => {
         console.log(result);
@@ -60,13 +60,9 @@ export default function Home() {
         }));
     }
 
-    const addNewTicket = (boardSectionId, tickets) => {
-        dispatch(addTicket({
-            id: `${parseInt(tickets[tickets.length-1].id) + 1}`,
-            boardSectionId: boardSectionId,
-            name: "New Ticket",
-            sectionPosition: tickets.filter(ticket => ticket.boardSectionId === boardSectionId).length + 1,
-        }));
+    const addNewTicket = (boardSectionId) => {
+        setBoardSectionIdAddTo(boardSectionId);
+        setTicketDialogOpen(true);
     }
 
     const deleteTicket = (ticket) => {
@@ -74,14 +70,6 @@ export default function Home() {
             id: ticket.id,
             boardSectionId: ticket.boardSectionId,
             sectionPosition: ticket.sectionPosition,
-        }));
-    }
-
-    const addNewBoardSection = () => {
-        dispatch(addBoardSection({
-            id: `${parseInt(boardSections[boardSections.length-1].id) + 1}`,
-            name: "New Board",
-            sectionPosition: boardSections.length + 1,
         }));
     }
 
@@ -97,7 +85,7 @@ export default function Home() {
     return (
         <Root>
             <DragDrop onDragEnd={onDragEnd}>
-                <Content id="board" addFunction={() => addNewBoardSection()}>
+                <Content id="board" addFunction={() => setBoardDialogOpen(true)}>
                     {boardSections.slice().sort((a, b) => a.sectionPosition - b.sectionPosition).map((section, index) => {
                         return (
                             <Section key={section.id} id={section.id} boards={boardSections.length} index={section.sectionPosition}>
@@ -141,6 +129,19 @@ export default function Home() {
                         )
                     })}
                 </Content>
+
+                <AddTicketDialog 
+                    open={ticketDialogOpen} 
+                    onClose={() => setTicketDialogOpen(false)} 
+                    boardSectionId={boardSectionIdAddTo}
+                    tickets={tickets}
+                />
+
+                <AddBoardDialog
+                    open={boardDialogOpen}
+                    onClose={() => setBoardDialogOpen(false)}
+                    boardSections={boardSections}
+                />
             </DragDrop>
         </Root>
     );
