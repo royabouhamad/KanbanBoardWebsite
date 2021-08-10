@@ -10,13 +10,27 @@ import {
     Text,
     TextInput
 } from "@kanban/ui-library";
-import { addBoardSection } from "../../../features/boardSections/boardSectionsSlice";
+import { addBoardSection, updateBoardSectionName } from "../../../features/boardSections/boardSectionsSlice";
 
-export default function AddBoardDialog({ open, onClose, boardSections }) {
+export default function AddBoardDialog({ open, onClose, boardSections, isEditMode, section }) {
     const [boardName, setBoardName] = React.useState("");
     const dispatch = useDispatch();
 
+    React.useEffect(() => {
+        setBoardName(section.name ?? "");
+    }, [section]);
+
     const handleSave = () => {
+        if (isEditMode) {
+            dispatch(updateBoardSectionName({
+                id: section.id,
+                name: boardName,
+            }));
+
+            handleClose();
+            return;
+        }
+
         dispatch(addBoardSection({
             id: `${parseInt(boardSections[boardSections.length-1].id) + 1}`,
             name: boardName,
@@ -49,8 +63,13 @@ export default function AddBoardDialog({ open, onClose, boardSections }) {
                     Cancel
                 </Button>
 
-                <Button small disabled={boardName===""} onClick={handleSave}>
-                    Add board
+                <Button 
+                    small 
+                    disabled={isEditMode ? boardName===section.name : boardName===""} 
+                    onClick={handleSave}
+                >
+                    
+                    {`${isEditMode ? "Update" : "Add"} board`}
                 </Button>
             </PanelActions>
         </PanelDialog>

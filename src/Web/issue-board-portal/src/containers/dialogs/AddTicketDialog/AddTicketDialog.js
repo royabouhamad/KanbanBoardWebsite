@@ -11,14 +11,39 @@ import {
     TextInput,
     TextInputMultiline
 } from "@kanban/ui-library";
-import { addTicket } from "../../../features/tickets/ticketsSlice";
+import { addTicket, updateTicketName, updateTicketDescription } from "../../../features/tickets/ticketsSlice";
 
-export default function AddTicketDialog({ open, onClose, boardSectionId, tickets}) {
+export default function AddTicketDialog({ open, onClose, boardSectionId, tickets, isEditMode, ticket}) {
     const [ticketName, setTicketName] = React.useState("");
     const [ticketDescription, setTicketDescription] = React.useState("");
+    const disabled = (ticketName==="") || (isEditMode && ticketName===ticket.name && ticketDescription===ticket.description);
     const dispatch = useDispatch();
 
+    React.useEffect(() => {
+        setTicketName(ticket.name ?? "");
+        setTicketDescription(ticket.description ?? "");
+    }, [ticket]);
+
     const handleSave = () => {
+        if (isEditMode) {
+            if (ticketName !== ticket.name) {
+                dispatch(updateTicketName({
+                    id: ticket.id,
+                    name: ticketName
+                }));
+            }
+
+            if (ticketDescription !== ticket.description) {
+                dispatch(updateTicketDescription({
+                    id: ticket.id,
+                    description: ticketDescription,
+                }));
+            }
+            
+            handleClose();
+
+            return;
+        }
         dispatch(addTicket({
             id: `${parseInt(tickets[tickets.length-1].id) + 1}`,
             boardSectionId: boardSectionId,
@@ -63,7 +88,7 @@ export default function AddTicketDialog({ open, onClose, boardSectionId, tickets
                     Cancel
                 </Button>
 
-                <Button small disabled={ticketName===""} onClick={handleSave}>
+                <Button small disabled={disabled} onClick={handleSave}>
                     Add ticket
                 </Button>
             </PanelActions>

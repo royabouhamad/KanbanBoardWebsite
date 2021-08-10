@@ -25,6 +25,10 @@ import { AddBoardDialog, AddTicketDialog } from "../containers/dialogs";
 
 export default function BoardPage() {
     const [boardSectionIdAddTo, setBoardSectionIdAddTo] = React.useState("");
+    const [sectionToEdit, setSectionToEdit] = React.useState({});
+    const [ticketToEdit, setTicketToEdit] = React.useState({});
+    const [boardEditMode, setBoardEditMode] = React.useState(false);
+    const [ticketEditMode, setTicketEditMode] = React.useState(false);
     const [boardDialogOpen, setBoardDialogOpen] = React.useState(false);
     const [ticketDialogOpen, setTicketDialogOpen] = React.useState(false);
     const boardSections = useSelector(state => state.boardSections);
@@ -32,7 +36,6 @@ export default function BoardPage() {
     const dispatch = useDispatch();
 
     const onDragEnd = (result) => {
-        console.log(result);
         if (!result.destination) {
             return;
         }
@@ -65,6 +68,18 @@ export default function BoardPage() {
         setTicketDialogOpen(true);
     }
 
+    const editTicket = (ticket) => {
+        setTicketToEdit(ticket);
+        setTicketEditMode(true);
+        setTicketDialogOpen(true);
+    }
+
+    const editBoard = (section) => {
+        setSectionToEdit(section);
+        setBoardEditMode(true);
+        setBoardDialogOpen(true);
+    }
+
     const deleteTicket = (ticket) => {
         dispatch(removeTicket({
             id: ticket.id,
@@ -91,7 +106,10 @@ export default function BoardPage() {
                             <Section key={section.id} id={section.id} boards={boardSections.length} index={section.sectionPosition}>
                                 <SectionHeader>
                                     <Text bold>{section.name}</Text>
-                                    <Icons.CrossIcon style={{ cursor: "pointer" }} onClick={() => deleteBoardSection(section)} />
+                                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", minWidth: "20%"}}>
+                                        <Icons.PencilIcon style={{cursor: "pointer"}} onClick={() => editBoard(section)} />
+                                        <Icons.CrossIcon style={{ cursor: "pointer" }} onClick={() => deleteBoardSection(section)} />
+                                    </div>
                                 </SectionHeader>
                                 
                                 
@@ -106,6 +124,7 @@ export default function BoardPage() {
                                                     backgroundColor="#f58569" 
                                                     id={ticket.id} 
                                                     index={ticket.sectionPosition}
+                                                    onClick={() => editTicket(ticket)}
                                                 >
                                                     <Text small>{ticket.id}</Text>
                                                     <div 
@@ -116,7 +135,7 @@ export default function BoardPage() {
                                                         }}
                                                     >
                                                         <Text>{ticket.name}</Text>
-                                                        <Icons.CrossIcon style={{ cursor: "pointer" }} onClick={() => deleteTicket(ticket)} />
+                                                        <Icons.CrossIcon style={{ cursor: "pointer" }} onClick={(e) => {e.stopPropagation(); deleteTicket(ticket)}} />
                                                     </div>
                                                     <Text small>{ticket.description}</Text>
                                                 </Ticket>
@@ -131,15 +150,19 @@ export default function BoardPage() {
 
                     <AddTicketDialog 
                         open={ticketDialogOpen} 
-                        onClose={() => setTicketDialogOpen(false)} 
+                        onClose={() => {setTicketDialogOpen(false); setTicketToEdit({}); setTicketEditMode(false)}} 
                         boardSectionId={boardSectionIdAddTo}
                         tickets={tickets}
+                        isEditMode={ticketEditMode}
+                        ticket={ticketToEdit}
                     />
 
                     <AddBoardDialog
                         open={boardDialogOpen}
-                        onClose={() => setBoardDialogOpen(false)}
+                        onClose={() => {setBoardDialogOpen(false); setSectionToEdit({}); setBoardEditMode(false)}}
                         boardSections={boardSections}
+                        isEditMode={boardEditMode}
+                        section={sectionToEdit}
                     />
                 </Content>
             </DragDrop>

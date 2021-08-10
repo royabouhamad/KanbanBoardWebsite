@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Ticket({ id, index, children, backgroundColor }) {
+export default function Ticket({ id, index, children, backgroundColor, ...rest }) {
     const classes = useStyles();
 
     return (
@@ -27,6 +27,7 @@ export default function Ticket({ id, index, children, backgroundColor }) {
                     <div 
                         className={classes.root} 
                         style={{ backgroundColor }}
+                        {...rest}
                     >
                         {children}
                     </div>

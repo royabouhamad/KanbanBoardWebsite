@@ -31,6 +31,7 @@ export const boardSectionsSlice = createSlice({
         updateBoardSectionName: (state, { payload }) => {
             return state.map(section => {
                 if (section.id === payload.id) {
+                    console.log("here");
                     return {
                         ...section,
                         name: payload.name,
