@@ -47,25 +47,22 @@ export const boardSectionsSlice = createSlice({
 
             return state.map(section => {
                 if (section.id === payload.id) {
-                    console.log("ttft")
                     return {
                         ...section,
-                        sectionPosition: payload.sectionPosition === 0 ? 1 : payload.sectionPosition + 1,
+                        sectionPosition: payload.sectionPosition === 0 ? 1 : payload.sectionPosition,
                     }
                 }
 
-                if (section.sectionPosition > payload.originalPosition + 1
-                    && section.sectionPosition <= payload.sectionPosition + 1) {
-                        console.log("ftft")
+                if (section.sectionPosition > payload.originalPosition
+                    && section.sectionPosition <= payload.sectionPosition) {
                         return {
                             ...section,
                             sectionPosition: section.sectionPosition - 1,
                         }
                 }
 
-                if (section.sectionPosition < payload.originalPosition + 1
-                    && section.sectionPosition >= payload.sectionPosition + 1) {
-                        console.log("tft")
+                if (section.sectionPosition < payload.originalPosition
+                    && section.sectionPosition >= payload.sectionPosition) {
                         return {
                             ...section,
                             sectionPosition: section.sectionPosition + 1,

@@ -100,7 +100,7 @@ export default function Home() {
                 <Content id="board" addFunction={() => addNewBoardSection()}>
                     {boardSections.slice().sort((a, b) => a.sectionPosition - b.sectionPosition).map((section, index) => {
                         return (
-                            <Section key={section.id} id={section.id} boards={boardSections.length} index={index}>
+                            <Section key={section.id} id={section.id} boards={boardSections.length} index={section.sectionPosition}>
                                 <SectionHeader>
                                     <Text bold>{section.name}</Text>
                                     <Icons.CrossIcon style={{ cursor: "pointer" }} onClick={() => deleteBoardSection(section)} />
