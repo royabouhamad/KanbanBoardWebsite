@@ -23,7 +23,7 @@ import {
 } from "../features/boardSections/boardSectionsSlice";
 import { AddBoardDialog, AddTicketDialog } from "../containers/dialogs";
 
-export default function Home() {
+export default function BoardPage() {
     const [boardSectionIdAddTo, setBoardSectionIdAddTo] = React.useState("");
     const [boardDialogOpen, setBoardDialogOpen] = React.useState(false);
     const [ticketDialogOpen, setTicketDialogOpen] = React.useState(false);
@@ -128,20 +128,20 @@ export default function Home() {
                             </Section>
                         )
                     })}
+
+                    <AddTicketDialog 
+                        open={ticketDialogOpen} 
+                        onClose={() => setTicketDialogOpen(false)} 
+                        boardSectionId={boardSectionIdAddTo}
+                        tickets={tickets}
+                    />
+
+                    <AddBoardDialog
+                        open={boardDialogOpen}
+                        onClose={() => setBoardDialogOpen(false)}
+                        boardSections={boardSections}
+                    />
                 </Content>
-
-                <AddTicketDialog 
-                    open={ticketDialogOpen} 
-                    onClose={() => setTicketDialogOpen(false)} 
-                    boardSectionId={boardSectionIdAddTo}
-                    tickets={tickets}
-                />
-
-                <AddBoardDialog
-                    open={boardDialogOpen}
-                    onClose={() => setBoardDialogOpen(false)}
-                    boardSections={boardSections}
-                />
             </DragDrop>
         </Root>
     );

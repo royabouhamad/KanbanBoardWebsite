@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { StyleDefaults, StyleWrapper } from "@kanban/ui-library";
-import { Home } from "./pages";
+import { BoardPage } from "./pages";
 
 function Router() {
   return (
@@ -9,7 +9,7 @@ function Router() {
       <StyleDefaults />
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={BoardPage} />
           <Redirect from="*" to="/" />
         </Switch>
       </BrowserRouter>
