@@ -10,6 +10,7 @@ const useStyles = makeStyles({
         borderBottom: "1px solid #000000",
         height: "40px",
         justifyContent: "space-between",
+        alignItems: "center",
     }
 });
 

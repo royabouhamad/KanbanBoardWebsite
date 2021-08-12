@@ -108,7 +108,14 @@ export default function BoardPage() {
                             <Section key={section.id} id={section.id} boards={boardSections.length} index={section.sectionPosition}>
                                 <SectionHeader>
                                     <Text bold>{section.name}</Text>
-                                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", minWidth: "20%"}}>
+                                    <div 
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            justifyContent: "space-between",
+                                            width: "55px",
+                                        }}
+                                    >
                                         <Icons.PencilIcon style={{cursor: "pointer"}} onClick={() => editBoard(section)} />
                                         <Icons.CrossIcon style={{ cursor: "pointer" }} onClick={() => deleteBoardSection(section)} />
                                     </div>
@@ -128,7 +135,6 @@ export default function BoardPage() {
                                                     index={ticket.sectionPosition}
                                                     onClick={() => editTicket(ticket)}
                                                 >
-                                                    <Text small>{ticket.id}</Text>
                                                     <div 
                                                         style={{
                                                             display: "flex",
@@ -136,9 +142,10 @@ export default function BoardPage() {
                                                             justifyContent: "space-between",
                                                         }}
                                                     >
-                                                        <Text>{ticket.name}</Text>
-                                                        <Icons.CrossIcon style={{ cursor: "pointer" }} onClick={(e) => {e.stopPropagation(); deleteTicket(ticket)}} />
+                                                        <Text small>{ticket.id}</Text>
+                                                        <Icons.CrossIcon style={{ cursor: "pointer", height: "20px" }} onClick={(e) => {e.stopPropagation(); deleteTicket(ticket)}} />
                                                     </div>
+                                                    <Text>{ticket.name}</Text>
                                                     <Text small>{ticket.description}</Text>
                                                 </Ticket>
                                             );
