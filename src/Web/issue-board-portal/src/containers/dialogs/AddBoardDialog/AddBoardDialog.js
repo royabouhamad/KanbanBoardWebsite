@@ -11,7 +11,6 @@ import {
     TextInput
 } from "@kanban/ui-library";
 import { addBoardSection, updateBoardSectionName } from "../../../features/boardSections/boardSectionsSlice";
-import { nanoid } from "@reduxjs/toolkit";
 
 export default function AddBoardDialog({ open, onClose, boardSections, isEditMode, section }) {
     const [boardName, setBoardName] = React.useState("");

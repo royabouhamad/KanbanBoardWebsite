@@ -12,7 +12,6 @@ import {
     TextInputMultiline
 } from "@kanban/ui-library";
 import { addTicket, updateTicketName, updateTicketDescription } from "../../../features/tickets/ticketsSlice";
-import { nanoid } from "@reduxjs/toolkit";
 
 export default function AddTicketDialog({ open, onClose, boardSectionId, tickets, isEditMode, ticket}) {
     const [ticketName, setTicketName] = React.useState("");
@@ -63,7 +62,7 @@ export default function AddTicketDialog({ open, onClose, boardSectionId, tickets
 
     return (
         <PanelDialog open={open} onClose={handleClose}>
-            <PanelHeading>Add ticket</PanelHeading>
+            <PanelHeading>{isEditMode ? "Edit" : "Add"} ticket</PanelHeading>
 
             <PanelRow>
                 <Label label={<Text>Name*</Text>}>
