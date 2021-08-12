@@ -1,32 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 export const ticketsSlice = createSlice({
     name: "Tickets",
-    initialState: [
-        { id: "1", boardSectionId: "1", sectionPosition: 1, name: "Setup redux", description: ""},
-        { id: "2", boardSectionId: "2", sectionPosition: 1, name: "Work on site", description: "Make site"},
-        { id: "3", boardSectionId: "2", sectionPosition: 2, name: "It works", description: "Starting to shape up"},
-        { id: "4", boardSectionId: "2", sectionPosition: 3, name: "It works", description: "Starting to shape up"},
-        { id: "5", boardSectionId: "3", sectionPosition: 1, name: "It works", description: "Starting to shape up"},
-        { id: "6", boardSectionId: "3", sectionPosition: 2, name: "It works", description: "Starting to shape up"},
-        { id: "7", boardSectionId: "3", sectionPosition: 3, name: "It works", description: "Starting to shape up"},
-        { id: "8", boardSectionId: "3", sectionPosition: 4, name: "It works", description: "Starting to shape up"},
-        { id: "9", boardSectionId: "1", sectionPosition: 2, name: "It works", description: "Starting to shape up"},
-        { id: "10", boardSectionId: "1", sectionPosition: 3, name: "It works", description: "Starting to shape up"},
-        { id: "11", boardSectionId: "2", sectionPosition: 4, name: "It works", description: "Starting to shape up"},
-        { id: "12", boardSectionId: "2", sectionPosition: 5, name: "It works", description: "Starting to shape up"},
-        { id: "13", boardSectionId: "3", sectionPosition: 5, name: "Setup project", description: "Creat react project and ui lib project"},
-        { id: "14", boardSectionId: "3", sectionPosition: 6, name: "Setup project", description: "Creat react project and ui lib project"},
-    ],
+    initialState: [],
     reducers: {
-        addTicket: (state, { payload }) => {
-            return [...state, {
-                id: payload.id,
-                boardSectionId: payload.boardSectionId,
-                name: payload.name,
-                description: payload.description ?? "",
-                sectionPosition: payload.sectionPosition,
-            }];
+        addTicket: {
+            reducer(state, { payload }){
+                return [...state, payload];
+            },
+            prepare(boardSectionId, name, description, sectionPosition){
+                return {
+                    payload : {
+                        id: nanoid(),
+                        boardSectionId,
+                        name,
+                        description,
+                        sectionPosition
+                    }
+                };
+            }
         },
         removeTicket: (state, { payload }) => {
             return state.filter(ticket => ticket.id !== payload.id).map(ticket => {
@@ -47,7 +39,6 @@ export const ticketsSlice = createSlice({
                     return {
                         ...ticket,
                         boardSectionId: payload.boardSectionId,
-                        ticket
                     }
                 };
                 return ticket;

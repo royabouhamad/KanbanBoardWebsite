@@ -20,7 +20,7 @@ export default function Section({ id, index, children }) {
     const classes = useStyles();
 
     return (
-        <Draggable draggableId={`b${id}`} index={index}>
+        <Draggable draggableId={id} index={index}>
             {(provided, snapshot) => (
                 <div 
                     className={classes.root}

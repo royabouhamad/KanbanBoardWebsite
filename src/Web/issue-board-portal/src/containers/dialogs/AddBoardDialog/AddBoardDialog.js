@@ -11,6 +11,7 @@ import {
     TextInput
 } from "@kanban/ui-library";
 import { addBoardSection, updateBoardSectionName } from "../../../features/boardSections/boardSectionsSlice";
+import { nanoid } from "@reduxjs/toolkit";
 
 export default function AddBoardDialog({ open, onClose, boardSections, isEditMode, section }) {
     const [boardName, setBoardName] = React.useState("");
@@ -26,18 +27,12 @@ export default function AddBoardDialog({ open, onClose, boardSections, isEditMod
                 id: section.id,
                 name: boardName,
             }));
-
-            handleClose();
-            return;
+        } else {
+            dispatch(addBoardSection(boardName, boardSections.length + 1));
         }
 
-        dispatch(addBoardSection({
-            id: `${parseInt(boardSections[boardSections.length-1].id) + 1}`,
-            name: boardName,
-            sectionPosition: boardSections.length + 1,
-        }));
-
         handleClose();
+        return;
     }
 
     const handleClose = () => {

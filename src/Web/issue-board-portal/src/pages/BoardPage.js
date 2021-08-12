@@ -33,6 +33,8 @@ export default function BoardPage() {
     const [ticketDialogOpen, setTicketDialogOpen] = React.useState(false);
     const boardSections = useSelector(state => state.boardSections);
     const tickets = useSelector(state => state.tickets);
+    console.log(boardSections);
+    console.log(tickets);
     const dispatch = useDispatch();
 
     const onDragEnd = (result) => {
@@ -42,7 +44,7 @@ export default function BoardPage() {
 
         if (result.type === "section") {
             dispatch(updateBoardSectionPosition({
-                id: result.draggableId[1],
+                id: result.draggableId,
                 originalPosition: result.source.index,
                 sectionPosition: result.destination.index,
             }));

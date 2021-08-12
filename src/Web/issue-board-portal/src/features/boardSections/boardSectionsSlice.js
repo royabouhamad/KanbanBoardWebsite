@@ -1,20 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, nanoid } from '@reduxjs/toolkit';
 
 export const boardSectionsSlice = createSlice({
     name: "Board Sections",
-    initialState: [
-        { id: "1", name: "To do", sectionPosition: 1},
-        { id: "2", name: "Doing", sectionPosition: 2},
-        { id: "3", name: "Done", sectionPosition: 3},
-        { id: "4", name: "Testing", sectionPosition: 4},
-    ],
+    initialState: [],
     reducers: {
-        addBoardSection: (state, { payload }) => {
-            return state.concat({
-                id: payload.id,
-                name: payload.name,
-                sectionPosition: payload.sectionPosition,
-            });
+        addBoardSection: {
+            reducer(state, { payload }) {
+                return [...state, payload];
+            },
+            prepare(name, sectionPosition) {
+                return {
+                    payload: {
+                        id: nanoid(),
+                        name,
+                        sectionPosition
+                    }
+                };
+            }
         },
         removeBoardSection: (state, { payload }) => {
             return state.filter(section => section.id !== payload.id).map(section => {
@@ -31,7 +33,6 @@ export const boardSectionsSlice = createSlice({
         updateBoardSectionName: (state, { payload }) => {
             return state.map(section => {
                 if (section.id === payload.id) {
-                    console.log("here");
                     return {
                         ...section,
                         name: payload.name,
@@ -42,12 +43,8 @@ export const boardSectionsSlice = createSlice({
             });
         },
         updateBoardSectionPosition: (state, { payload }) => {
-            if (payload.sectionPosition === payload.originalPosition) {
-                return state;
-            }
-
             return state.map(section => {
-                if (section.id === payload.id) {
+                if (section.id == payload.id) {
                     return {
                         ...section,
                         sectionPosition: payload.sectionPosition === 0 ? 1 : payload.sectionPosition,

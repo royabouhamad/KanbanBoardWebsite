@@ -12,6 +12,7 @@ import {
     TextInputMultiline
 } from "@kanban/ui-library";
 import { addTicket, updateTicketName, updateTicketDescription } from "../../../features/tickets/ticketsSlice";
+import { nanoid } from "@reduxjs/toolkit";
 
 export default function AddTicketDialog({ open, onClose, boardSectionId, tickets, isEditMode, ticket}) {
     const [ticketName, setTicketName] = React.useState("");
@@ -39,20 +40,19 @@ export default function AddTicketDialog({ open, onClose, boardSectionId, tickets
                     description: ticketDescription,
                 }));
             }
-            
-            handleClose();
-
-            return;
+        } else {
+            dispatch(
+                addTicket(
+                    boardSectionId,
+                    ticketName,
+                    ticketDescription,
+                    tickets.filter(ticket => ticket.boardSectionId === boardSectionId).length + 1
+                )
+            );
         }
-        dispatch(addTicket({
-            id: `${parseInt(tickets[tickets.length-1].id) + 1}`,
-            boardSectionId: boardSectionId,
-            name: ticketName,
-            description: ticketDescription,
-            sectionPosition: tickets.filter(ticket => ticket.boardSectionId === boardSectionId).length + 1,
-        }));
 
         handleClose();
+        return;
     }
 
     const handleClose = () => {
