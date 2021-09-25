@@ -1,0 +1,24 @@
+version: "3.7"
+
+x-defaultEnvVars: &defaultVars
+    DATABASE_CONNECTION_STRING: postgres://postgres:password@kanban-postgres:5432/kanban
+    ASPNETCORE_ENVIRONMENT: Development
+
+
+services:
+    # Databases
+    
+    kanban-postgres:
+        image: postgres:12
+        volumes:
+            - "kanban-postgres-data:/var/lib/postgresql/data"
+        environment:
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=kanban
+        ports:
+            - "5432:5432"
+
+volumes:
+    kanban-postgres-data:
+              

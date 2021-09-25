@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = Kanban.Issues.API
+build_property.ProjectDir = /Users/Roy/Documents/Projects/issue-board-application/src/Services/Kanban.Issues.API/Kanban.Issues.API/

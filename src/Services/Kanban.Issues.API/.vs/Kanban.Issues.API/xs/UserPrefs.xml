@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{6A569B0A-D68F-43C6-88AD-CC125F4BD728}|Default">
+  <MonoDevelop.Ide.ItemProperties.Kanban.Issues.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Kanban.Issues.API/Controllers/IssuesController.cs">
+    <Files>
+      <File FileName="Kanban.Issues.API/Program.cs" Line="1" Column="1" />
+      <File FileName="Kanban.Issues.API/Controllers/IssuesController.cs" Line="77" Column="25" />
+      <File FileName="Kanban.Issues.API/Models/DataModels/Issue.cs" Line="7" Column="37" />
+      <File FileName="Kanban.Issues.API/Models/RequestModels/CreateIssueRequestModel.cs" Line="20" Column="2" />
+      <File FileName="Kanban.Issues.API/Models/ViewModels/IssueViewModel.cs" Line="15" Column="41" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Kanban.Issues.API" expanded="True">
+            <Node name="Kanban.Issues.API" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="IssuesController.cs" selected="True" />
+              </Node>
+              <Node name="Models" expanded="True">
+                <Node name="ViewModels" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

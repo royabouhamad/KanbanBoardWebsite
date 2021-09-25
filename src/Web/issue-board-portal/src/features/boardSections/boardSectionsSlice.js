@@ -44,7 +44,7 @@ export const boardSectionsSlice = createSlice({
         },
         updateBoardSectionPosition: (state, { payload }) => {
             return state.map(section => {
-                if (section.id == payload.id) {
+                if (section.id === payload.id) {
                     return {
                         ...section,
                         sectionPosition: payload.sectionPosition === 0 ? 1 : payload.sectionPosition,
